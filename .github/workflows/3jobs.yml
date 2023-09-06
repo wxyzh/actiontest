@@ -33,14 +33,14 @@ jobs:
     steps:
 
       - name: Cache commit SHA
-        id: cach-commit-sha
+        id: cache-commit-sha
         uses: actions/cache@v2
         with:
           path: ${{ runner.workspace }}  # 缓存整个工作目录
           key: cache-${{ needs.Get_Commit_SHA.outputs.commit_sha }}  # 使用 commit SHA 作为缓存的 key
           
       - name: Create out.txt with commit SHA
-        if: cach-commit-sha.outputs.cache-hit != 'true' 
+        if: steps.cache-commit-sha.outputs.cache-hit != 'true' 
         run: |
           commit_sha_from_job1="${{ needs.Get_Commit_SHA.outputs.commit_sha }}"
           echo "Commit SHA from job1: $commit_sha_from_job1" > out.txt
