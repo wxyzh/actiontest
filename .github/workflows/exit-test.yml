@@ -14,18 +14,21 @@ jobs:
           $commitsha = $commitParts[0]
           $env:commitsha = $commitsha
           echo "librime commit SHA: $commitsha"
+      - name: Test env
+        run: |
+          echo $env:commitsha
 
       - name: Cache commit SHA
         id: cache-commit-sha
         uses: actions/cache@v3
         with:
           path: ${{ runner.workspace }}  # 缓存整个工作目录
-          key: cache-${{ env.commitsha }}  # 使用 commit SHA 作为缓存的 key
+          key: cache-$env:commitsha  # 使用 commit SHA 作为缓存的 key
           
       - name: Create out.txt with commit SHA
         if: steps.cache-commit-sha.outputs.cache-hit != 'true' 
         run: |
-          $commit_sha_from_job1="${{ env.commitsha }}"
+          $commit_sha_from_job1=$env:commitsha
           echo "Commit SHA from job1: $commit_sha_from_job1" > out.txt
       - name: OutPut commit SHA
         run: |
