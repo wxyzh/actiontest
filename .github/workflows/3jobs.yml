@@ -25,11 +25,11 @@ jobs:
     runs-on: windows-2022
     needs: Get_Commit_SHA
     env:
-      commitsha_from_job1: ${{ needs.get-commit-sha.outputs.commitsha }}
+      commitsha_from_job1: ${{ needs.get-commit-sha.outputs.commit_sha }}
     steps:
       - name: Use commit SHA in job2
         run: |
-          #$commitsha_from_job1="${{ needs.get-commit-sha.outputs.commitsha }}"
+          #$commitsha_from_job1="${{ needs.get-commit-sha.outputs.commit_sha }}"
           cat $env:GITHUB_OUTPUT
           echo $env:commitsha_from_job1
           echo "Using commit SHA from job1: $commitsha_from_job1"
@@ -45,12 +45,12 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ runner.workspace }}  # 缓存整个工作目录
-          key: cache-${{ needs.get-commit-sha.outputs.commitsha }}  # 使用 commit SHA 作为缓存的 key
+          key: cache-${{ needs.get-commit-sha.outputs.commit_sha }}  # 使用 commit SHA 作为缓存的 key
           
       - name: Create out.txt with commit SHA
         if: steps.cache-commit-sha.outputs.cache-hit != 'true' 
         run: |
-          $commit_sha_from_job1="${{ needs.get-commit-sha.outputs.commitsha }}"
+          $commit_sha_from_job1="${{ needs.get-commit-sha.outputs.commit_sha }}"
           echo "Commit SHA from job1: $commit_sha_from_job1" > out.txt
       - name: OutPut commit SHA
         run: |
