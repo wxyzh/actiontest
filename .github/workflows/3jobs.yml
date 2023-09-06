@@ -24,6 +24,7 @@ jobs:
   job2:
     runs-on: windows-2022
     needs: Get_Commit_SHA
+    if: ${{ needs.Get_Commit_SHA.outputs.sha == runner.workspace }}
     env:
       commitsha_from_job1: ${{ needs.Get_Commit_SHA.outputs.commit_sha }}
     steps:
