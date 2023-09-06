@@ -25,8 +25,8 @@ jobs:
     runs-on: windows-2022
     needs: Get_Commit_SHA
     steps:
-    env:
-      commitsha_from_job1: ${{ needs.get-commit-sha.outputs.commitsha }}
+      - env:
+        commitsha_from_job1: ${{ needs.get-commit-sha.outputs.commitsha }}
       - name: Use commit SHA in job2
         run: |
           #$commitsha_from_job1="${{ needs.get-commit-sha.outputs.commitsha }}"
