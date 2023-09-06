@@ -42,7 +42,7 @@ jobs:
 
       - name: Cache commit SHA
         id: cache-commit-sha
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ runner.workspace }}  # 缓存整个工作目录
           key: cache-${{ needs.Get_Commit_SHA.outputs.commit_sha }}  # 使用 commit SHA 作为缓存的 key
