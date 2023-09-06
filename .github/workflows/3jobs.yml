@@ -16,6 +16,7 @@ jobs:
           $commitParts = $commit -split '\s+'
           $commitsha = $commitParts[0]
           echo "librime commit SHA: $commitsha"
+          $GITHUB_OUTPUT = "commitsha = $commitsha"
           #echo "::set-output name=commitsha::$commitsha"
 
   job2:
