@@ -1,0 +1,50 @@
+name: 3Jobs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Get_Commit_SHA:
+    runs-on: windows-2022
+    outputs:
+      commit_sha: ${{ steps.get-commit-sha.outputs.commitsha }}
+    steps:
+      - name: Get librime commit sha
+        id: get-commit-sha
+        run: |
+          $commit = git ls-remote https://github.com/rime/librime/ master
+          $commitParts = $commit -split '\s+'
+          $commitsha = $commitParts[0]
+          echo "librime commit SHA: $commitsha"
+          echo "::set-output name=commitsha::$commitsha"
+
+  job2:
+    runs-on: windows-2022
+    needs: Get_Commit_SHA
+    steps:
+      - name: Use commit SHA in job2
+        run: |
+          commitsha_from_job1="${{ needs.Get_Commit_SHA.outputs.commit_sha }}"
+          echo "Using commit SHA from job1: $commitsha_from_job1"
+          
+  job3:
+    runs-on: windows-2022
+    needs: Get_Commit_SHA
+    steps:
+
+      - name: Cache commit SHA
+        id: cach-commit-sha
+        uses: actions/cache@v2
+        with:
+          path: ${{ runner.workspace }}  # 缓存整个工作目录
+          key: cache-${{ needs.Get_Commit_SHA.outputs.commit_sha }}  # 使用 commit SHA 作为缓存的 key
+          
+      - name: Create out.txt with commit SHA
+        if: cach-commit-sha.outputs.cache-hit != 'true' 
+        run: |
+          commit_sha_from_job1="${{ needs.Get_Commit_SHA.outputs.commit_sha }}"
+          echo "Commit SHA from job1: $commit_sha_from_job1" > out.txt
+      - name: OutPut commit SHA
+        run: |
+          write-host "test:"
+          cat out.txt
