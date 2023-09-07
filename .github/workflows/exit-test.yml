@@ -34,7 +34,6 @@ jobs:
   job2:
     runs-on: windows-2022
     needs: job1
-    if: ${{ github.env.needupdate }} != true
       - name: Get Last commit sha
         id: lastsha
         run: |
