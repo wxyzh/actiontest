@@ -33,6 +33,7 @@ jobs:
   
   job2:
     runs-on: windows-2022
+    if: ${{ always() }}
     needs: job1
     steps:
       - name: Get Last commit sha
