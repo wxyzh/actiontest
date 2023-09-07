@@ -13,12 +13,18 @@ jobs:
           $commit = git ls-remote https://github.com/rime/librime/ master
           $commitParts = $commit -split '\s+'
           $commitsha = $commitParts[0]
-          $env:commitsha = $commitsha
+          "commitsha = $commitsha" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "librime commit SHA: $commitsha"
           echo "sha=$commitsha" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
       - name: Test env
         run: |
-          echo $env:sha
+          echo "From outputs"
+          echo $env:SHA
+          echo "From env"
+          echo ${{env.commitsha}}
+        env:
+          SHA: ${{steps.lastsha.outputs.sha}}
+          
 
       - name: Cache commit SHA
         id: cache-commit-sha
