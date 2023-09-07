@@ -13,7 +13,7 @@ jobs:
           $commit = git ls-remote https://github.com/rime/librime/ master
           $commitParts = $commit -split '\s+'
           $commitsha = $commitParts[0]
-          "commitsha = $commitsha" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "commitsha=$commitsha" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "librime commit SHA: $commitsha"
           echo "sha=$commitsha" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
       - name: Test env
