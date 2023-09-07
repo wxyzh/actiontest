@@ -36,7 +36,7 @@ jobs:
     if: ${{ github.env.needupdate }} != true
     steps:
       - name: exit
-        run: exit 0
+        run: exit 1
       - name: Get Last commit sha
         id: lastsha
         run: |
