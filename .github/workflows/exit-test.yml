@@ -7,7 +7,7 @@ jobs:
   job1:
     runs-on: windows-2022
     outputs: 
-      buildlibrime ${{steps.checklibrime.outputs.bulidrime}}
+      buildlibrime : ${{steps.checklibrime.outputs.bulidrime}}
     steps:
       - name: Get Last commit sha
         id: lastsha1
