@@ -19,24 +19,22 @@ jobs:
           echo "sha=$commitsha" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           
       - name: Create cache
-        id: cache-commit-sha
+        id: cache-commit-sha1
         uses: actions/cache@v3
         with:
           path: ${{ runner.workspace }}  # 缓存整个工作目录
-          key: $env:commitsha  # 使用 commit SHA 作为缓存的 key
+          key: ${{env.commitsha}}  # 使用 commit SHA 作为缓存的 key
           
       - name: Create out.txt with commit SHA
-        if: steps.cache-commit-sha.outputs.cache-hit != 'true' 
+        if: steps.cache-commit-sha1.outputs.cache-hit != 'true' 
         run: |
-          "needupdate=$true" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          #"needupdate=$true" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          exit 1
   
   job2:
     runs-on: windows-2022
     needs: job1
     if: ${{ github.env.needupdate }} != true
-    steps:
-      - name: exit
-        run: exit 1
       - name: Get Last commit sha
         id: lastsha
         run: |
@@ -61,7 +59,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ runner.workspace }}  # 缓存整个工作目录
-          key: cache-$env:commitsha  # 使用 commit SHA 作为缓存的 key
+          key: cache-${{env.commitsha}}  # 使用 commit SHA 作为缓存的 key
           
       - name: Create out.txt with commit SHA
         if: steps.cache-commit-sha.outputs.cache-hit != 'true' 
