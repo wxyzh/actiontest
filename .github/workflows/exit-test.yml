@@ -21,7 +21,7 @@ jobs:
           echo "From outputs"
           echo $env:SHA
           echo "From env"
-          echo ${{env.commitsha}}
+          echo $env:commitsha
         env:
           SHA: ${{steps.lastsha.outputs.sha}}
           
