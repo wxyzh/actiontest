@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ runner.workspace }}  # 缓存整个工作目录
-          key: $commitsha  # 使用 commit SHA 作为缓存的 key
+          key: $env:commitsha  # 使用 commit SHA 作为缓存的 key
           
       - name: Create out.txt with commit SHA
         if: steps.cache-commit-sha.outputs.cache-hit != 'true' 
@@ -32,6 +32,7 @@ jobs:
   
   job2:
     runs-on: windows-2022
+    needs: job1
     if: ${{ github.env.needupdate }} != true
     steps:
       - name: Get Last commit sha
