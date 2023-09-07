@@ -34,7 +34,7 @@ jobs:
   
   job2:
     runs-on: windows-2022
-    if: ${{ needs.lastsha1.result }}
+    if:  needs.lastsha1.result = 'success'
     needs: job1
     steps:
       - name: Get Last commit sha
