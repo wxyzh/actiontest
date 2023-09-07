@@ -46,7 +46,7 @@ jobs:
           "commitsha=$commitsha" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "librime commit SHA: $commitsha"
           echo "sha=$commitsha" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          #echo ${{jobs.lastsha1.result}}
+          #echo ${{needs.job1.result}}
       - name: Test env
         run: |
           echo "From outputs"
