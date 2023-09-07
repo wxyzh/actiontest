@@ -32,12 +32,12 @@ jobs:
         if: steps.cache-commit-sha1.outputs.cache-hit == 'true' 
         #continue-on-error: true
         run: |
-          echo "bulidrime=1" |  Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          exit 1
+          echo "bulidrime=a" |  Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          #exit 1
   
   job2:
     runs-on: windows-2022
-    if: always() && (needs.job1.outputs.buildlibrime == '1')
+    if: always() && (needs.job1.outputs.buildlibrime == 'a')
     needs: job1
     steps:
       - name: Get Last commit sha
