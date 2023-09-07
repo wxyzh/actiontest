@@ -16,7 +16,8 @@ jobs:
           $commitParts = $commit -split '\s+'
           $commitsha = $commitParts[0]
           "commitsha=$commitsha" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "needupdate=$false" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          #"needupdate=$false" |  Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          $bulidrime = "0"
           echo "librime commit SHA: $commitsha"
           echo "sha=$commitsha" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           
@@ -29,15 +30,16 @@ jobs:
           
       - name: Create out.txt with commit SHA
         id: checklibrime
-        if: steps.cache-commit-sha1.outputs.cache-hit == 'true' 
+        if: steps.cache-commit-sha1.outputs.cache-hit != 'true' 
         #continue-on-error: true
         run: |
-          echo "bulidrime=a" |  Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $bulidrime = "1"
+          echo "bulidrime=$bulidrime" |  Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           #exit 1
   
   job2:
     runs-on: windows-2022
-    if: always() && (needs.job1.outputs.buildlibrime == 'a')
+    if: always() && (needs.job1.outputs.buildlibrime == '1')
     needs: job1
     steps:
       - name: Get Last commit sha
