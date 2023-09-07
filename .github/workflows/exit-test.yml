@@ -7,7 +7,7 @@ jobs:
   job1:
     runs-on: windows-2022
     outputs: 
-      buildlibrime : ${{steps.checklibrime.outputs.bulidrime}}
+      buildlibrime: ${{steps.checklibrime.outputs.bulidrime}}
     steps:
       - name: Get Last commit sha
         id: lastsha1
@@ -32,7 +32,7 @@ jobs:
         if: steps.cache-commit-sha1.outputs.cache-hit == 'true' 
         #continue-on-error: true
         run: |
-          "bulidrime=1" |  Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "bulidrime=1" |  Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           exit 1
   
   job2:
