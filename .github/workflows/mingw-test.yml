@@ -1,0 +1,21 @@
+name: librime-debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  mingw:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+        
+    steps:
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        
+      - name: Checkout last commit
+        uses: actions/checkout@v4
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
